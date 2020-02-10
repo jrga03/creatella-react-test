@@ -4,9 +4,9 @@ const StyledLi = styled.li`
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    height: 200px;
-    width: 200px;
-    padding: 8px;
+    height: 150px;
+    min-width: 120px;
+    padding: 8px 16px;
     margin-right: 8px;
     margin-bottom: 8px;
     border: 1px solid rgba( 0, 0, 0, 0.4 );
@@ -21,6 +21,7 @@ const StyledLi = styled.li`
         flex: 1;
         align-items: center;
         justify-content: center;
+        white-space: nowrap;
         font-size: ${({size}) => `${size}px`};
     }
 `;
