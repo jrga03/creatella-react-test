@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { formatDate } from '../../utils/date';
+import { formatCurrency } from '../../utils/currency';
 
 import StyledLi from './styles';
 
@@ -15,10 +16,18 @@ function Face({ id, face, size, price, date }) {
                 Added: { formatDate( date ) }
             </span>
             <span>
-                Price: { price }
+                Price: { formatCurrency( price ) }
             </span>
         </StyledLi>
     );
 }
+
+Face.propTypes = {
+    id: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    face: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired
+};
 
 export default Face;
