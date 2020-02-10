@@ -8,6 +8,7 @@ const ellipsis = keyframes`
 
 const Wrapper = styled.div`
     font-size: 30px;
+    padding: 8px;
 
     &:after {
         overflow: hidden;
