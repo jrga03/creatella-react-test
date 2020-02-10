@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
 import { getProducts } from '../../api';
+
+import { isBottomOfPage } from '../../utils/scroll';
 
 import Loader from '../../components/Loader';
 import FaceList from '../../components/FaceList';
@@ -14,75 +16,142 @@ const SORT_OPTIONS = [
     { value: 'id', label: 'ID' }
 ];
 
-function App() {
-    const [ isLoading, setIsLoading ] = useState( false );
-    const [ page, setPage ] = useState( 1 );
-    const [ products, setProducts ] = useState([]);
-    const [ sortBy, setSortBy ] = useState( null );
+class App extends React.Component {
+    constructor( props ) {
+        super( props );
 
-    const listRef = useRef( null );
+        this.state = {
+            isLoading: false,
+            page: 1,
+            products: [],
+            preloadedProducts: [],
+            loadNextPage: false,
+            fetchingNextPage: false,
+            sortBy: null
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener( 'scroll', this.onScroll );
+
+        this.getData();
+    }
+
+    componentDidUpdate( prevProps, prevState ) {
+        if ( prevState.sortBy !== this.state.sortBy ) {
+            this.getData();
+        }
+
+        if ( prevState.preloadedProducts.length !== this.state.preloadedProducts.length
+            && this.state.preloadedProducts.length > 0
+            && this.state.loadNextPage
+        ) {
+            this.loadMoreItems()
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener( 'scroll', this.onScroll );
+    }
 
     /**
-     * Create a scroll listener on component load
+     * Callback for scroll event
      */
-    useEffect(() => {
-        console.log( 'onload' );
-        window.addEventListener( 'scroll', onScroll );
-        return () => window.removeEventListener( 'scroll', onScroll );
-    }, [])
-
-    useEffect(() => {
-        getData();
-    }, [sortBy]);
-
-    function onScroll( event ) {
-        console.log( 'onscroll', window.innerHeight, document.documentElement.scrollTop, document.documentElement.offsetHeight );
-        console.log( listRef.current.getBoundingClientRect() );
-        if ( window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight ) {
-            console.log('Fetch more list items!');
+    onScroll = () => {
+        if ( isBottomOfPage() ) {
+            this.setState({
+                isLoading: true,
+                loadNextPage: true
+            }, this.loadMoreItems );
         }
     }
 
     /**
      * Fetch products
      */
-    async function getData() {
-        setIsLoading( true );
-        const sort = sortBy ? sortBy.value : null;
-        const products = await getProducts({ page, limit: 50, sort });
-        setProducts( products );
-        setIsLoading( false );
+    getData = () => {
+        this.setState({ isLoading: true }, async () => {
+            const { page, sortBy } = this.state;
+            const sort = sortBy ? sortBy.value : null;
+            const products = await getProducts({ page, limit: 30, sort });
+
+            this.setState(( state ) => ({
+                products,
+                isLoading: false,
+                page: state.page + 1
+            }), this.preLoadNextPage );
+        });
+    }
+
+    /**
+     * Fetch next page in advance
+     */
+    preLoadNextPage = () => {
+        this.setState({ fetchingNextPage: true }, async () => {
+            const { page, sortBy } = this.state;
+            const sort = sortBy ? sortBy.value : null;
+            const products = await getProducts({ page, limit: 30, sort });
+            
+            this.setState(( state ) => ({
+                preloadedProducts: products,
+                page: state.page + 1,
+                fetchingNextPage: false
+            }));
+        });
+    }
+
+    loadMoreItems = () => {
+        if ( this.state.preloadedProducts.length > 0 ) {
+            this.setState(( state ) => ({
+                products: [
+                    ...state.products,
+                    ...state.preloadedProducts
+                ],
+                preloadedProducts: [],
+                isLoading: false,
+                loadNextPage: false
+            }));
+        } else if ( !this.state.fetchingNextPage ) {
+            this.preLoadNextPage();
+        }
     }
 
     /**
      * Sets selected sort method to state
      * @param {object} selected - Selected option
      */
-    function onSortChange( selected ) {
+    onSortChange = ( selected ) => {
+        const { sortBy } = this.state;
         const current = sortBy ? sortBy.value : null;
         const next = selected ? selected.value : null;
         if ( current !== next ) {
-            setProducts([]);
-            setPage( 1 );
-            setSortBy( selected );
+            this.setState({
+                products: [],
+                page: 1,
+                sortBy: selected
+            });
         }
     }
 
-    return (
-        <Container>
-            <Header>
-                <SortBy
-                    value={ sortBy }
-                    options={ SORT_OPTIONS }
-                    onChange={ onSortChange }
-                />
-            </Header>
-            { products.length === 0
-                ? <Loader />
-                : <FaceList faces={ products } onRef={ listRef } />
-            }
-        </Container>
-    );
+    render() {
+        const { sortBy, products, isLoading } = this.state;
+
+        return (
+            <Container>
+                <Header>
+                    <SortBy
+                        value={ sortBy }
+                        options={ SORT_OPTIONS }
+                        onChange={ this.onSortChange }
+                    />
+                </Header>
+                { products.length === 0
+                    ? <Loader />
+                    : <FaceList faces={ products } loading={ isLoading } />
+                }
+            </Container>
+        );
+    }
 }
 
 export default App;
