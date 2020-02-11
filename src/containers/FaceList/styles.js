@@ -5,7 +5,7 @@ const ListWrapper = styled.ul`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     margin: 8px;;
     padding: 0;
