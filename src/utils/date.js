@@ -12,7 +12,7 @@ const MS_IN_A_WEEK = MS_IN_A_DAY * 7;
  * @returns {number} Number of minute/s
  */
 function msToMinutes( ms = 0 ) {
-    return Math.floor( ms / 1000 / 60 );
+    return Math.floor( ms / MS_IN_A_MINUTE );
 }
 
 /**
@@ -21,7 +21,7 @@ function msToMinutes( ms = 0 ) {
  * @returns {number} Number of hour/s
  */
 function msToHours( ms = 0 ) {
-    return Math.floor( ms / 1000 / 60 / 60 );
+    return Math.floor( ms / MS_IN_AN_HOUR );
 }
 
 /**
@@ -30,7 +30,7 @@ function msToHours( ms = 0 ) {
  * @returns {number} Number of day/s
  */
 function msToDays( ms = 0 ) {
-    return Math.floor( ms / 1000 / 60 / 60 / 24 );
+    return Math.floor( ms / MS_IN_A_DAY );
 }
 
 /**
@@ -64,6 +64,16 @@ function getRelativeTime( ms = 0 ) {
     }
 }
 
+/**
+ * Gets month from the given date
+ * @param {Date} date
+ * @returns {string} Month name
+ */
+function getMonthName( date ) {
+    const options = { month: 'short' };
+    return new Intl.DateTimeFormat( 'en-US', options ).format( date );
+}
+
 export function formatDate( dateString = Date.now() ) {
     const date = new Date( dateString );
     const dateInMs = date.getTime();
@@ -74,8 +84,8 @@ export function formatDate( dateString = Date.now() ) {
     }
 
     const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart( 2, 0 );
+    const month = getMonthName( date );
     const day = `${date.getDate()}`.padStart( 2, 0 );
 
-    return `${year}-${month}-${day}`;
+    return `${day} ${month} ${year}`;
 }
