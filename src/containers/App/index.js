@@ -16,7 +16,6 @@ import { Container, Header, Footer } from './styles';
 function App() {
     const dispatch = useDispatch();
 
-    const isLoading = useSelector(({ isLoading }) => isLoading );
     const page = useSelector(({ page }) => page );
     const products = useSelector(({ products }) => products );
     const preloadedProducts = useSelector(({ preloadedProducts }) => preloadedProducts );
@@ -74,7 +73,7 @@ function App() {
             </Header>
             { products.length === 0
                 ? <Loader />
-                : <FaceList faces={ products } loading={ isLoading } />
+                : <FaceList />
             }
             { isEndOfProductList && (
                 <Footer>
