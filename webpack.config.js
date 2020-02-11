@@ -40,5 +40,10 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env": JSON.stringify(dotenv.parsed)
         })
-    ]
+    ],
+    devServer: {
+        host: '0.0.0.0',
+        port: 8080,
+        disableHostCheck: true
+    }
 }
