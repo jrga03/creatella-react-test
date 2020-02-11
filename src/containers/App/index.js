@@ -25,7 +25,7 @@ class App extends React.Component {
             page: 1,
             products: [],
             preloadedProducts: [],
-            loadNextPage: false,
+            shouldRenderNextPage: true,
             fetchingNextPage: false,
             sortBy: null
         }
@@ -44,7 +44,7 @@ class App extends React.Component {
 
         if ( prevState.preloadedProducts.length !== this.state.preloadedProducts.length
             && this.state.preloadedProducts.length > 0
-            && this.state.loadNextPage
+            && this.state.shouldRenderNextPage
         ) {
             this.loadMoreItems()
         }
@@ -58,10 +58,14 @@ class App extends React.Component {
      * Callback for scroll event
      */
     onScroll = () => {
-        if ( isBottomOfPage() ) {
+        /**
+         * Check if bottom of page is reached and
+         * page is not set to render the next page
+         */
+        if ( isBottomOfPage() && !this.state.shouldRenderNextPage ) {
             this.setState({
                 isLoading: true,
-                loadNextPage: true
+                shouldRenderNextPage: true
             }, this.loadMoreItems );
         }
     }
@@ -78,7 +82,9 @@ class App extends React.Component {
             this.setState(( state ) => ({
                 products,
                 isLoading: false,
-                page: state.page + 1
+                page: state.page + 1,
+                fetchingNextPage: true,
+                shouldRenderNextPage: false
             }), this.preLoadNextPage );
         });
     }
@@ -86,18 +92,16 @@ class App extends React.Component {
     /**
      * Fetch next page in advance
      */
-    preLoadNextPage = () => {
-        this.setState({ fetchingNextPage: true }, async () => {
-            const { page, sortBy } = this.state;
-            const sort = sortBy ? sortBy.value : null;
-            const products = await getProducts({ page, limit: 30, sort });
-            
-            this.setState(( state ) => ({
-                preloadedProducts: products,
-                page: state.page + 1,
-                fetchingNextPage: false
-            }));
-        });
+    preLoadNextPage = async () => {
+        const { page, sortBy } = this.state;
+        const sort = sortBy ? sortBy.value : null;
+        const products = await getProducts({ page, limit: 30, sort });
+
+        this.setState(( state ) => ({
+            preloadedProducts: products,
+            page: state.page + 1,
+            fetchingNextPage: false
+        }));
     }
 
     loadMoreItems = () => {
@@ -109,10 +113,11 @@ class App extends React.Component {
                 ],
                 preloadedProducts: [],
                 isLoading: false,
-                loadNextPage: false
-            }));
+                shouldRenderNextPage: false,
+                fetchingNextPage: true
+            }), this.preLoadNextPage );
         } else if ( !this.state.fetchingNextPage ) {
-            this.preLoadNextPage();
+            this.setState({ fetchingNextPage: true }, this.preLoadNextPage );
         }
     }
 
