@@ -6,6 +6,9 @@ function Loader() {
     return (
         <Wrapper>
             Loading
+                <span className="dot">.</span>
+                <span className="dot two">.</span>
+                <span className="dot three">.</span>
         </Wrapper>
     );
 }
