@@ -1,32 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux'
 
 import Face from '../../components/Face';
 import Loader from '../../components/Loader';
 
 import ListWrapper from './styles';
 
-function FaceList({ faces, loading }) {
+function FaceList() {
+    const isLoading = useSelector(({ isLoading }) => isLoading );
+    const products = useSelector(({ products }) => products );
+
     return (
         <ListWrapper>
-            { faces.map(( face ) => (
+            { products.map(( face ) => (
                 <Face key={ face.id } {...face} />
             )) }
 
-            { loading && <Loader /> }
+            { isLoading && <Loader /> }
         </ListWrapper>
     );
-}
-
-FaceList.propTypes = {
-    faces: PropTypes.arrayOf(
-        PropTypes.object.isRequired
-    ).isRequired,
-    loading: PropTypes.bool
-};
-
-FaceList.defaultProps = {
-    loading: false
 }
 
 export default FaceList;
