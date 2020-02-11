@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Face from '../Face';
-import Loader from '../Loader';
+import Face from '../../components/Face';
+import Loader from '../../components/Loader';
 
 import ListWrapper from './styles';
 
