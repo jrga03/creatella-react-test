@@ -23,3 +23,12 @@ export const Header = styled.header`
     align-items: center;
     justify-content: flex-end;
 `;
+
+export const Footer = styled.footer`
+    font-size: 30px;
+    width: 100vw;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
