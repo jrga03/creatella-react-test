@@ -29,6 +29,7 @@ import {
 function* fetchProducts({ payload }) {
     try {
         yield put( setLoading( true ));
+        yield call( window.scrollTo, { top: 0, behavior: 'smooth' });
         yield put( setProducts([]));
         yield put( setPreloadedProducts([]));
         yield put( setPage( 1 ));
@@ -63,7 +64,7 @@ function* preLoadNextPage() {
         };
         const preloadedProducts = yield call( getProducts, payload );
 
-        if ( preloadedProducts.length > 0 ) {
+        if ( preloadedProducts.length === LIMIT_PER_PAGE ) {
             yield put( setPreloadedProducts( preloadedProducts ));
             yield put( setPage( nextPage ));
         } else {
