@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.main`
-    height: 100vh;
+    height: calc( 100vh - 66px ); /* subtract padding top and bottom */
     width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding-top: 58px;
     padding-bottom: 8px;
 `;
@@ -24,11 +23,18 @@ export const Header = styled.header`
     justify-content: flex-end;
 `;
 
+export const LoadingWrapper = styled.div`
+    height: 100%;
+    display: flex;
+    align-items: center;
+`;
+
 export const Footer = styled.footer`
     font-size: 30px;
-    width: 100vw;
+    width: 100%;
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-bottom: 30px;
 `;
