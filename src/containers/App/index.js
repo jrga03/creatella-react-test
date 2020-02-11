@@ -130,8 +130,10 @@ class App extends React.Component {
         const current = sortBy ? sortBy.value : null;
         const next = selected ? selected.value : null;
         if ( current !== next ) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             this.setState({
                 products: [],
+                preloadedProducts: [],
                 page: 1,
                 sortBy: selected
             });
