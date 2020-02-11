@@ -9,14 +9,14 @@ import StyledLi from './styles';
 function Face({ id, face, size, price, date }) {
     return (
         <StyledLi key={ id } size={ size }>
+            <span className="date-added">
+                { formatDate( date ) }
+            </span>
             <div className="face">
                 { face }
             </div>
-            <span>
-                Added: { formatDate( date ) }
-            </span>
-            <span>
-                Price: { formatCurrency( price ) }
+            <span className="price">
+                { formatCurrency( price ) }
             </span>
         </StyledLi>
     );
