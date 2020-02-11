@@ -4,14 +4,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isBottomOfPage } from '../../utils/scroll';
 
 import { SORT_OPTIONS, LIMIT_PER_PAGE } from '../../constants';
-import { getProducts, loadMoreItems, setSortBy } from '../../actions';
+import {
+    getProducts,
+    loadMoreItems,
+    setSortBy
+} from '../../actions';
 
 import Loader from '../../components/Loader';
 import SortBy from '../../components/SortBy';
 
 import FaceList from '../FaceList';
 
-import { Container, Header, Footer } from './styles';
+import {
+    Container,
+    Header,
+    LoadingWrapper,
+    Footer
+} from './styles';
 
 function App() {
     const dispatch = useDispatch();
@@ -72,7 +81,11 @@ function App() {
                 />
             </Header>
             { products.length === 0
-                ? <Loader />
+                ? (
+                    <LoadingWrapper>
+                        <Loader />
+                    </LoadingWrapper>
+                )
                 : <FaceList />
             }
             { isEndOfProductList && (
