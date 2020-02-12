@@ -55,9 +55,8 @@ function* preLoadNextPage() {
         yield put( setFetchingNextPage( true ));
 
         const currentPage = yield select(({ page }) => page );
-        const sortBy = yield select(({ sortBy }) => sortBy );
+        const sort = yield select(({ sortBy }) => sortBy ? sortBy.value : null );
         const nextPage = currentPage + 1;
-        const sort = sortBy ? sortBy.value : null;
 
         const payload = {
             page: nextPage,
@@ -102,6 +101,10 @@ function* loadMoreItems() {
     }
 }
 
+/**
+ * Watcher for GET_PRODUCTS so the ongoing XHR call for the
+ * preloaded products will be aborted if sorting is changed
+ */
 function* watchForGetProducts( taskToCancel ) {
     yield takeLatest( GET_PRODUCTS, cancelTask, taskToCancel );
 }
