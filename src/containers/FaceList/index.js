@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux'
 
 import Face from '../../components/Face';
+import Ad from '../../components/Ad';
 import Loader from '../../components/Loader';
 
 import ListWrapper from './styles';
@@ -12,8 +13,14 @@ function FaceList() {
 
     return (
         <ListWrapper>
-            { products.map(( face ) => (
-                <Face key={ face.id } {...face} />
+            { products.map(( product, index ) => (
+                typeof product === 'object'
+                    ? (
+                        <Face key={ product.id } {...product} />
+                    )
+                    : (
+                        <Ad key={ `${index}${product}` } id={ product } />
+                    )
             )) }
 
             { isLoading && <Loader /> }
