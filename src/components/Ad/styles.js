@@ -7,6 +7,10 @@ const AdWrapper = styled.div`
     min-height: 200px;
     margin-right: 8px;
     margin-bottom: 8px;
+
+    .ad {
+        border-radius: 4px;
+    }
 `;
 
 export default AdWrapper;
