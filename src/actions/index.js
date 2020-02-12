@@ -1,3 +1,6 @@
+/**
+ * Actions
+ */
 import {
     SET_LOADING,
     SET_PAGE,
