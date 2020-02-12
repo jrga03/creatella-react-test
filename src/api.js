@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+/**
+ * Set axios defaults
+ */
 axios.defaults.baseURL = process.env.API_URL;
 axios.defaults.headers.common[ 'X-Requested-With' ] = 'XMLHttpRequest';
 axios.defaults.headers.post[ 'Content-Type' ] = 'application/json';
@@ -8,7 +11,7 @@ axios.defaults.headers.post[ 'Content-Type' ] = 'application/json';
  * Fetches product list
  * @param {object} params
  * @param {number} params.page - Page number
- * @param {number} [params.limit=10] - Limit of the number of items to be returned
+ * @param {number} [params.limit=15] - Limit of the number of items to be returned
  * @param {string} [params.sort=''] - Sort results by one of ['price', 'size', 'id']
  * @returns {object[]} List of products
  */
