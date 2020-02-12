@@ -5,13 +5,14 @@ const StyledLi = styled.li`
     display: flex;
     flex-direction: column;
     height: 184px;
-    min-width: 150px;
     padding: 8px;
     margin-right: 8px;
     margin-bottom: 8px;
     border: 1px solid rgba( 0, 0, 0, 0.4 );
     border-radius: 4px;
     transition: transform 0.2s;
+    flex: 1;
+    flex-basis: 150px;
 
     &:hover {
         background-color: rgba( 0, 0, 0, 0.1 );
