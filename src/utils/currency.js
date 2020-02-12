@@ -2,17 +2,17 @@
  * Formats number
  * @param {number} [number=0]
  * @param {number} [decimal=0]
- * @returns {}
+ * @returns {string}
  */
 function formatNumber( number = 0, decimal = 0 ) {
-    return Number.parseFloat( number ).toFixed( decimal );
+    return Number.parseFloat( number / 100 ).toFixed( decimal );
 }
 
 /**
- * Formats currency into '$XX.XX' notation
- * @param {number} [currency=0]
- * @returns {string} Formatted currency
+ * Formats price into '$XX.XX' notation
+ * @param {number} [price=0] - Price in cents
+ * @returns {string} Formatted price
  */
-export function formatCurrency( currency = 0 ) {
-    return `$${formatNumber( currency, 2 )}`;
+export function formatPrice( price = 0 ) {
+    return `$${formatNumber( price, 2 )}`;
 }

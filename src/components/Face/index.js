@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { formatDate } from '../../utils/date';
-import { formatCurrency } from '../../utils/currency';
+import { formatPrice } from '../../utils/currency';
 
 import StyledLi from './styles';
 
@@ -16,7 +16,7 @@ function Face({ id, face, size, price, date }) {
                 { face }
             </div>
             <span className="price">
-                { formatCurrency( price ) }
+                { formatPrice( price ) }
             </span>
         </StyledLi>
     );
