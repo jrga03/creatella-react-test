@@ -28,13 +28,13 @@ function App() {
 
     const page = useSelector(({ page }) => page );
     const products = useSelector(({ products }) => products );
-    const preloadedProducts = useSelector(({ preloadedProducts }) => preloadedProducts );
+    const preloadedProductsLength = useSelector(({ preloadedProducts }) => preloadedProducts.length );
     const isEndOfProductList = useSelector(({ isEndOfProductList }) => isEndOfProductList );
     const fetchingNextPage = useSelector(({ fetchingNextPage }) => fetchingNextPage );
     const sortBy = useSelector(({ sortBy }) => sortBy );
 
     /**
-     * Create a scroll listener on component load
+     * Subscribe to scroll event on component load and fetch products
      */
     useEffect(() => {
         const sort = sortBy ? sortBy.value : null;
@@ -42,13 +42,17 @@ function App() {
 
         window.addEventListener( 'scroll', onScroll, { passive: true });
         return () => window.removeEventListener( 'scroll', onScroll );
-    }, [])
+    }, []);
 
+    /**
+     * This is triggered if the scroll bar is at the bottom of the page
+     * and preloaded items are received
+     */
     useEffect(() => {
-        if ( preloadedProducts.length > 0 && !fetchingNextPage && isBottomOfPage()) {
+        if ( preloadedProductsLength > 0 && !fetchingNextPage && isBottomOfPage()) {
             dispatch( loadMoreItems());
         }
-    }, [preloadedProducts, fetchingNextPage])
+    }, [ preloadedProductsLength, fetchingNextPage ]);
 
     /**
      * Callback for scroll event
