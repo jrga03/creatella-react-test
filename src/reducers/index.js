@@ -1,3 +1,5 @@
+import { insertAdsToProducts } from '../utils/ad';
+
 import {
     SET_LOADING,
     SET_PRODUCTS,
@@ -6,7 +8,8 @@ import {
     SET_SORT_BY,
     SET_SHOULD_RENDER_NEXT_PAGE,
     SET_FETCHING_NEXT_PAGE,
-    SET_IS_END_OF_PRODUCT_LIST
+    SET_IS_END_OF_PRODUCT_LIST,
+    RESET_ADS
 } from '../actions/types';
 
 const initialState = {
@@ -17,7 +20,9 @@ const initialState = {
     shouldRenderNextPage: true,
     fetchingNextPage: false,
     sortBy: null,
-    isEndOfProductList: false
+    isEndOfProductList: false,
+    adCount: 0,
+    prevAdId: null
 };
 
 function reducer( state = initialState, action ) {
@@ -25,7 +30,26 @@ function reducer( state = initialState, action ) {
         case SET_LOADING:
             return { ...state, isLoading: action.payload };
         case SET_PRODUCTS:
-            return { ...state, products: action.payload };
+            const result = insertAdsToProducts(
+                [...action.payload],
+                {
+                    count: state.adCount,
+                    prev: state.prevAdId
+                }
+            );
+
+            const {
+                productsWithAds,
+                adCount,
+                prevAdId
+            } = result;
+
+            return {
+                ...state,
+                products: productsWithAds,
+                adCount,
+                prevAdId
+            };
         case SET_PRELOADED_PRODUCTS:
             return { ...state, preloadedProducts: action.payload };
         case SET_PAGE:
@@ -38,6 +62,12 @@ function reducer( state = initialState, action ) {
             return { ...state, fetchingNextPage: action.payload };
         case SET_IS_END_OF_PRODUCT_LIST:
             return { ...state, isEndOfProductList: action.payload };
+        case RESET_ADS:
+            return {
+                ...state,
+                adCount: 0,
+                prevAdId: null
+            }
         default:
             return state;
     }
