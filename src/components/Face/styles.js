@@ -4,7 +4,7 @@ const StyledLi = styled.li`
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    height: 150px;
+    height: 184px;
     min-width: 150px;
     padding: 8px;
     margin-right: 8px;
