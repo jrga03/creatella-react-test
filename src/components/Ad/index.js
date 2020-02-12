@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Ad({ rand }) {
+import AdWrapper from './styles';
+
+function Ad({ id }) {
     return (
-        <img class="ad" src={ `/ads/?r=${rand}` }/>
+        <AdWrapper>
+            <img className="ad" src={ `${process.env.API_URL}/ads/?r=${id}` }/>
+        </AdWrapper>
     );
 }
 
 Ad.propTypes = {
-    rand: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired
 }
 
 export default Ad;
