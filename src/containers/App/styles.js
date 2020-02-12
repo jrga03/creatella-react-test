@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.main`
     height: calc( 100vh - 66px ); /* subtract padding top and bottom */
-    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 8px;
     padding-top: 58px;
-    padding-bottom: 8px;
 
     .loading-appear {
         opacity: 0;
