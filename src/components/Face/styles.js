@@ -11,10 +11,11 @@ const StyledLi = styled.li`
     margin-bottom: 8px;
     border: 1px solid rgba( 0, 0, 0, 0.4 );
     border-radius: 4px;
+    transition: transform 0.2s;
 
     &:hover {
         background-color: rgba( 0, 0, 0, 0.1 );
-        border-width: 2px;
+        transform: translateY( -2px );
     }
 
     .face {
