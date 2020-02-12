@@ -24,6 +24,7 @@ import {
     setFetchingNextPage,
     setShouldRenderNextPage,
     setIsEndOfProductList,
+    resetAds,
 } from '../actions';
 
 function* fetchProducts({ payload }) {
@@ -34,6 +35,7 @@ function* fetchProducts({ payload }) {
         yield put( setPreloadedProducts([]));
         yield put( setPage( 1 ));
         yield put( setIsEndOfProductList( false ));
+        yield put( resetAds());
 
         const products = yield call( getProducts, payload );
 

@@ -9,7 +9,8 @@ import {
     LOAD_MORE_ITEMS,
     SET_SORT_BY,
     SET_FETCHING_NEXT_PAGE,
-    SET_IS_END_OF_PRODUCT_LIST
+    SET_IS_END_OF_PRODUCT_LIST,
+    RESET_ADS
 } from './types';
 
 export function getProducts( payload ) {
@@ -85,5 +86,11 @@ export function setIsEndOfProductList( payload ) {
     return {
         type: SET_IS_END_OF_PRODUCT_LIST,
         payload
+    };
+}
+
+export function resetAds() {
+    return {
+        type: RESET_ADS
     };
 }
