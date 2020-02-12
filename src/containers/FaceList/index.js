@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
+import { CSSTransition } from 'react-transition-group';
 
 import Face from '../../components/Face';
 import Ad from '../../components/Ad';
@@ -16,7 +17,9 @@ function FaceList() {
             { products.map(( product, index ) => (
                 typeof product === 'object'
                     ? (
-                        <Face key={ product.id } {...product} />
+                        <CSSTransition key={ product.id } in timeout={ 500 } classNames="products" appear>
+                            <Face  {...product} />
+                        </CSSTransition>
                     )
                     : (
                         <Ad key={ `${index}${product}` } id={ product } />

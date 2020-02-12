@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { CSSTransition } from 'react-transition-group';
 
 import { isBottomOfPage } from '../../utils/scroll';
 
@@ -82,9 +83,11 @@ function App() {
             </Header>
             { products.length === 0
                 ? (
-                    <LoadingWrapper>
-                        <Loader />
-                    </LoadingWrapper>
+                    <CSSTransition in timeout={ 500 } classNames="loading" appear>
+                        <LoadingWrapper>
+                            <Loader />
+                        </LoadingWrapper>
+                    </CSSTransition>
                 )
                 : <FaceList />
             }

@@ -8,6 +8,22 @@ export const Container = styled.main`
     align-items: center;
     padding-top: 58px;
     padding-bottom: 8px;
+
+    .loading-appear {
+        opacity: 0;
+    }
+
+    .loading-appear-active {
+        opacity: 1;
+        transition: opacity 300ms;
+    }
+    .loading-exit {
+        opacity: 1;
+    }
+    .loading-exit-active {
+        opacity: 0;
+        transition: opacity 300ms;
+    }
 `;
 
 export const Header = styled.header`
